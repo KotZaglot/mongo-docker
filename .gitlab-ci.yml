@@ -1,0 +1,20 @@
+stages:
+  - build
+  - test
+  - deploy
+
+build:
+  stage: build
+  script:
+    - chmod +x build.sh
+    - ./build.sh
+
+test:
+  stage: test
+  script:
+    - echo "Running tests"
+
+deploy:
+  stage: deploy
+  script:
+    - echo "Deploying application"

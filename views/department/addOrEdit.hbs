@@ -1,0 +1,58 @@
+<h3>{{viewTitle}}</h3>
+
+<form action="/department" method="POST" autocomplete="off">
+    <input type="hidden" name="_id" value="{{department._id}}">
+    <div class="form-group">
+        <label>Name</label>
+        <input type="text" class="form-control" name="name" placeholder="Name" value="{{department.name}}">
+    </div>
+    <div class="form-group">
+        <label>Description</label>
+        <textarea class="form-control" name="description" placeholder="Description">{{department.description}}</textarea>
+    </div>
+    <div class="form-group">
+        <label>Task</label>
+        <input type="text" class="form-control" name="task" placeholder="Task" value="{{department.task}}">
+    </div>
+    <div class="form-group">
+        <label>Employees</label>
+        <input type="text" class="form-control" name="employees" placeholder="Employees" value="{{department.employees}}">
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-info"><i class="fa fa-database"></i> Submit</button>
+        <a class="btn btn-secondary" href="/department/list"><i class="fa fa-list-alt"></i> View All</a>
+    </div>
+    
+</form>
+
+<div class="form-group">
+    <a class="btn btn-primary" href="/employee"><i class="fa fa-user"></i> Employee Page</a>
+    <a class="btn btn-primary" href="/task"><i class="fa fa-tasks"></i> Task Page</a>
+</div>
+
+<div class="form-group">
+    <label>Department ID for Average Salary</label>
+    <input type="text" id="department-id" class="form-control" placeholder="Enter Department ID">
+    <button id="calculate-average-salary" class="btn btn-primary" style="margin-top: 10px;"><i class="fa fa-calculator"></i> Calculate Average Salary</button>
+</div>
+
+<div id="average-salary-result" class="form-group" style="margin-top: 10px;">
+    <!-- Результат расчета средней зарплаты будет выводиться здесь -->
+</div>
+
+<script>
+document.getElementById('calculate-average-salary').addEventListener('click', async function() {
+    const departmentId = document.getElementById('department-id').value;
+    if (!departmentId) {
+        alert('Please enter a Department ID');
+        return;
+    }
+    const response = await fetch(`/department/average-salary/${departmentId}`);
+    const data = await response.json();
+    if (data.error) {
+        document.getElementById('average-salary-result').innerText = data.error;
+    } else {
+        document.getElementById('average-salary-result').innerText = `Average Salary: ${data.averageSalary}`;
+    }
+});
+</script>
